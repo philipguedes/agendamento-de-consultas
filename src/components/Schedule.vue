@@ -1,13 +1,22 @@
 <template>
-  <div>
-  <b-card>
-    <div class="row">
-      <div class="col-md-12">
-          <p>oi</p>
-      </div>
-    </div>
-   </b-card>
-  </div>
+  <v-layout align-center justify-center>
+    <v-card class="schedule-card">
+      <v-item-group multiple>
+        <v-layout align-center justify-center row wrap>
+          <v-item
+            v-for="it in items"
+            :key="it">
+            <v-chip
+              slot-scope="{ active }"
+              :selected="active"
+              v-on:click="select(it)">
+              {{ it }}
+            </v-chip>
+          </v-item>
+        </v-layout>
+      </v-item-group>
+    </v-card>
+  </v-layout>
 </template>
 
 <script>
@@ -15,46 +24,32 @@ export default {
   name: 'schedule',
   data () {
     return {
-      date: new Date(),
-      options: {
-        format: 'DD/MM/YYYY',
-        useCurrent: false,
-        daysOfWeekDisabled: [0, 6]
-      }
+      items: [
+        '10:00',
+        '10:30',
+        '11:00',
+        '11:30',
+        '14:00',
+        '14:30',
+        '15:00',
+        '15:30'
+      ]
     }
   },
   methods: {
-    disableDate: (dt) => {
-      console.log('hey, ' + dt)
-    },
-    onDateChange () {
-      console.log(this)
-      this.$emit('changed', this.date)
+    select (time) {
+      // TODO: remove log
+      console.log(`bla: ${time}`)
+      this.time = time
     }
-  },
-  components: {
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #35495E;
+.schedule-card {
+  padding: 16px;
 }
 </style>
 
