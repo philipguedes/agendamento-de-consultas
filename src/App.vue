@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <header>
-      <span>Vue.js PWA</span>
+      <span>Agendamento de Consultas</span>
     </header>
     <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
       <router-view></router-view>
     </main>
   </div>
@@ -15,6 +14,10 @@ export default {
   name: 'app'
 }
 </script>
+
+<style lang="scss">
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+</style>
 
 <style>
 body {
