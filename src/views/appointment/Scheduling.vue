@@ -1,16 +1,14 @@
 <template>
-  <v-flex xs5>
-    <v-card class="scheduling">
-      <v-layout align-center wrap column justify-center>
-        <v-flex xs12>
-          <calendar v-on:changed="dateChanged"></calendar>
-        </v-flex>
-        <v-flex xs12>
-          <scheduler v-on:selected="selectTime" :date="date"></scheduler>
-        </v-flex>
-      </v-layout>
-    </v-card>
-  </v-flex>
+  <div class="scheduling">
+    <v-layout align-center wrap column justify-center>
+      <v-flex xs12>
+        <calendar v-on:changed="dateChanged"></calendar>
+      </v-flex>
+      <v-flex xs12>
+        <scheduler v-on:selected="selectTime" :date="date"></scheduler>
+      </v-flex>
+    </v-layout>
+  </div>
 </template>
 
 <script>
@@ -43,7 +41,7 @@ export default {
 <style>
 
 .scheduling {
-  height: 400px
+  height: 100%
 }
 
 </style>

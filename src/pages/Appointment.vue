@@ -1,5 +1,16 @@
 <template>
-  <user-info></user-info>
+  <v-card class="appointment">
+    <v-layout row wrap align-center justify-center>
+      <!-- <v-flex> -->
+        <user-info></user-info>
+      <!-- </v-flex> -->
+      <v-divider vertical></v-divider>
+      <!-- <v-flex> -->
+        <scheduling></scheduling>
+      <!-- </v-flex> -->
+    </v-layout>
+    <v-btn block color="secondary" dark>Agendar</v-btn>
+  </v-card>
 </template>
 
 <script>
@@ -16,3 +27,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.appointment {
+  height: 300px;
+  width: 640px;
+}
+</style>

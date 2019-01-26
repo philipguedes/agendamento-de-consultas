@@ -1,34 +1,32 @@
 <template>
-  <v-flex xs5>
-    <v-card height="300px">
-      <v-form
-        ref="form"
-        v-model="form"
-        class="pa-3 pt-4"
-      >
-        <v-text-field
-          v-model="name"
-          :rules="[rules.name, rules.length(3)]"
-          regular
-          label="Name"
-        ></v-text-field>
-        <v-text-field
-          v-model="phone"
-          regular
-          label="Celular"
-          mask="(##) # ####-####"
-        ></v-text-field>
-        <v-text-field
-          v-model="email"
-          :rules="[rules.email]"
-          regular
-          label="Email"
-          type="email"
-          error
-        ></v-text-field>
-      </v-form>
-    </v-card>
-  </v-flex>
+  <div class="info">
+    <v-form
+      ref="form"
+      v-model="form"
+      class="pa-3 pt-4"
+    >
+      <v-text-field
+        v-model="name"
+        :rules="[rules.name, rules.length(3)]"
+        regular
+        label="Name"
+      ></v-text-field>
+      <v-text-field
+        v-model="phone"
+        regular
+        label="Celular"
+        mask="(##) # ####-####"
+      ></v-text-field>
+      <v-text-field
+        v-model="email"
+        :rules="[rules.email]"
+        regular
+        label="Email"
+        type="email"
+        error
+      ></v-text-field>
+    </v-form>
+  </div>
 </template>
 
 <script>
@@ -55,3 +53,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.info {
+  min-width: 300px;
+  height: 100%;
+}
+</style>
