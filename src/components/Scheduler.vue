@@ -27,6 +27,9 @@
 </template>
 
 <script>
+import moment from 'moment'
+import Api from '../api/index.js'
+
 export default {
   name: 'scheduler',
   data () {
@@ -36,22 +39,36 @@ export default {
         '10:30',
         '11:00',
         '11:30',
-        '14:00',
-        '14:30',
-        '15:00',
-        '15:30'
+        '14:00'
       ]
     }
   },
-  methods: {
-    say: (h) => { console.log(h) },
-    select (time) {
-      // TODO: remove log
-      console.log(`bla: ${time}`)
-      this.time = time
+  props: {
+    date: Object
+  },
+  watch: {
+    date () {
+      this.refreshItems()
     }
   },
-  components: {
+  methods: {
+    select (time) {
+      this.time = time
+      this.$emit('selected', time)
+
+      //     Api.postSelectedAppointment(this.date, this.time)
+      // .then((res) => { console.log('Scheduler Posted!'); console.log(res) })
+      // .catch((err) => {
+      //   console.log(err)
+      // })
+    },
+    refreshItems () {
+      this.items = [] // TODO: colocar loading aqui
+
+      const formatted = moment(this.date).format('YYYY-MM-DD')
+      Api.getAgenda(formatted).then(({ data }) => { this.items = data })
+    }
+
   }
 }
 </script>

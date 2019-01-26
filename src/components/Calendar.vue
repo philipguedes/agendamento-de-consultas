@@ -35,8 +35,8 @@ export default {
   name: 'calendar',
   data () {
     return {
-      date: '',
-      menu: false
+      menu: false,
+      date: ''
     }
   },
   watch: {
@@ -48,10 +48,7 @@ export default {
     computedDateFormatted () {
       return this.date ? moment(this.date).format('DD/MM/YYYY') : ''
     }
-  },
-  methods: {
   }
-
 }
 </script>
 
