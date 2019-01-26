@@ -3,13 +3,17 @@
 const { Schema, model } = require('mongoose')
 
 const AppointmentSchema = new Schema({
-  date: { type: Date, required: true },
-  client: {
+  status: { type: String, default: 'created' },
+  created: { type: Date, default: Date.now },
+  updates: [{
+    created: { type: Date, default: Date.now },
+    reason: { type: String }
+  }],
+  user: {
     email: { type: String, required: true },
     phone: String,
     name: String
-  },
-  scheduled_at: { type: Date, default: Date.now }
+  }
 })
 
 module.exports = model('Appointment', AppointmentSchema)
