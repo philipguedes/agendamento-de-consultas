@@ -1,43 +1,32 @@
 <template>
-    <v-container grid-list-md align-center justify-center>
-<v-layout row wrap>
-
-
-
-  <v-card>
-    <v-layout column align-center justify-center wrap>
-      <v-flex>
-        <calendar v-on:changed="say('hi')"></calendar>
-      </v-flex>
-      <v-flex>
-
-      <div>
-        <v-item-group multiple>
-          <v-layout align-center justify-center row wrap>
-            <v-item
+  <v-layout align-center justify-center>
+    <v-flex xs6>
+      <v-item-group>
+        <v-container
+          style="max-height: 200px"
+          class="scroll-y">
+          <v-layout row wrap>
+            <v-flex
               v-for="it in items"
-              :key="it">
-              <v-chip
-                slot-scope="{ active }"
-                :selected="active"
-                v-on:click="select(it)">
-                {{ it }}
-              </v-chip>
-            </v-item>
+              :key="it"
+              xs6>
+              <v-item>
+                <v-chip
+                  slot-scope="{ active }"
+                  :selected="active"
+                  v-on:click="select(it)">
+                  {{ it }}
+                </v-chip>
+              </v-item>
+            </v-flex>
           </v-layout>
-        </v-item-group>
-      </div>
-      </v-flex>
-    </v-layout>
-  </v-card>
-
-</v-layout>
-    </v-container>
+        </v-container>
+      </v-item-group>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-import Calendar from './Calendar.vue'
-
 export default {
   name: 'scheduler',
   data () {
@@ -63,7 +52,6 @@ export default {
     }
   },
   components: {
-    Calendar
   }
 }
 </script>
