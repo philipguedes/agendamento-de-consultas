@@ -1,4 +1,4 @@
 module.exports = {
-  dbUrl: process.env.MONGODB || 'mongodb://admin:admin123@ds263619.mlab.com:63619/cuidas-ag',
+  dbUrl: process.env.MONGODB || 'mongodb://admin:admin123@ds113845.mlab.com:13845/cuidado',
   port: process.env.PORT || 4200
 }
