@@ -41,7 +41,8 @@ export default {
 <style>
 
 .scheduling {
-  height: 100%
+  height: 100%;
+  width: 200px
 }
 
 </style>

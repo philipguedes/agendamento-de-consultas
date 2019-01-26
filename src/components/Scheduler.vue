@@ -1,10 +1,10 @@
 <template>
+<v-container class="scheduler">
   <v-layout align-center justify-center>
-    <v-flex xs6>
+    <v-flex xs12>
       <v-item-group>
         <v-container
-          style="max-height: 200px"
-          class="scroll-y">
+          class="scroll-y list">
           <v-layout row wrap>
             <v-flex
               v-for="it in items"
@@ -24,6 +24,8 @@
       </v-item-group>
     </v-flex>
   </v-layout>
+</v-container>
+
 </template>
 
 <script>
@@ -72,3 +74,16 @@ export default {
   }
 }
 </script>
+
+<style>
+.scheduler {
+  max-height: 100%;
+  max-width: 320px;
+}
+
+.list {
+  max-height: 120px;
+  min-height: 120px;
+}
+
+</style>
