@@ -8,7 +8,8 @@ const AppointmentSchema = new Schema({
     email: { type: String, required: true },
     phone: String,
     name: String
-  }
+  },
+  scheduled_at: { type: Date, default: Date.now }
 })
 
 module.exports = model('Appointment', AppointmentSchema)
