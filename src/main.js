@@ -10,7 +10,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(BootstrapVue)
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  iconfont: 'fa4'
+})
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
