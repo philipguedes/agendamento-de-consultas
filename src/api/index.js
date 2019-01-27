@@ -23,7 +23,19 @@ async function postSelectedAppointment ({ date, time }) {
   return response
 }
 
+async function openAppointments (dates) {
+  let response
+  try {
+    response = await axios.post(`${apiUrl}/appointment`, dates)
+  } catch (error) {
+    console.error(error)
+    response = {}
+  }
+  return response
+}
+
 export default {
   getAgenda,
-  postSelectedAppointment
+  postSelectedAppointment,
+  openAppointments
 }

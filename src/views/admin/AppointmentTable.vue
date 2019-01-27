@@ -1,58 +1,84 @@
 <template>
-  <v-data-table
-    v-model="selected"
-    :headers="headers"
-    :items="items"
-    :pagination.sync="pagination"
-    select-all
-    item-key="hour"
-    class="elevation-1"
-  >
-    <template slot="headers" slot-scope="props">
-      <tr>
-        <th>
-          <v-checkbox
-            :input-value="props.all"
-            :indeterminate="props.indeterminate"
-            primary
-            hide-details
-            @click.stop="toggleAll"
-          ></v-checkbox>
-        </th>
-        <th
-          v-for="header in props.headers"
-          :key="header.text"
-          :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
-          @click="changeSort(header.value)"
-        >
-          <v-icon small>arrow_upward</v-icon>
-          {{ header.text }}
-        </th>
-      </tr>
-    </template>
-    <template slot="items" slot-scope="props">
-      <tr :active="props.selected" @click="props.selected = !props.selected">
-        <td>
-          <v-checkbox
-            :input-value="props.selected"
-            primary
-            hide-details
-          ></v-checkbox>
-        </td>
-        <td>{{ props.item.hour }}</td>
-        <td class="text-xs-right">{{ props.item.available }}</td>
-      </tr>
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-card-text>
+      <v-data-table
+        v-model="selected"
+        :headers="headers"
+        :items="items"
+        :pagination.sync="pagination"
+        rows-per-page-text=""
+        :rows-per-page-items="[]"
+        select-all
+        item-key="hour"
+        class="elevation-2">
+        <template slot="headers" slot-scope="props">
+          <tr>
+            <th>
+              <v-checkbox
+                :input-value="props.all"
+                :indeterminate="props.indeterminate"
+                primary
+                hide-details
+                @click.stop="toggleAll"
+              ></v-checkbox>
+            </th>
+            <th
+              v-for="header in props.headers"
+              :key="header.text"
+              :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+              @click="changeSort(header.value)"
+            >
+              <v-icon small>arrow_upward</v-icon>
+              {{ header.text }}
+            </th>
+          </tr>
+        </template>
+        <template slot="items" slot-scope="props">
+          <tr :active="props.selected" @click="props.selected = !props.selected">
+            <td>
+              <v-checkbox
+                :input-value="props.selected"
+                primary
+                hide-details
+              ></v-checkbox>
+            </td>
+            <td>{{ props.item.hour }}</td>
+            <td class="text-xs-right">{{ props.item.available }}</td>
+          </tr>
+        </template>
+      </v-data-table>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+        color="green"
+        class="white--text"
+        :loading="loading1"
+        :disabled="loading1 || loading2"
+        @click="openRow">
+        Liberar
+      </v-btn>
+      <v-btn
+        color="red"
+        class="white--text"
+        :loading="loading2"
+        :disabled="loading2 || loading1"
+        @click="closeRow">
+        Fechar Horário
+        <v-icon dark right>remove_circle</v-icon>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
-import moment from 'moment'
 
 export default {
   name: 'appointment-table',
   data () {
     return {
+      loader: null,
+      loading1: false,
+      loading2: false,
       pagination: {
         sortBy: 'hour'
       },
@@ -67,7 +93,7 @@ export default {
           value: 'available'
         }
       ],
-      times: [
+      template: [
         '08:00',
         '09:00',
         '10:00',
@@ -93,7 +119,7 @@ export default {
         { hour: '04:20', available: '1' },
         { hour: '05:20', available: '1' },
         { hour: '06:20', available: '1' },
-        { hour: '07:20', available: '1' },
+        { hour: '07:20', available: '2' },
         { hour: '08:20', available: '1' },
         { hour: '09:20', available: '1' },
         { hour: '01:20', available: '1' },
@@ -104,14 +130,32 @@ export default {
     }
   },
   props: {
-    date: Object
+    date: String
   },
   watch: {
     date (newDate) {
       console.log('heloo')
+    },
+    loader () {
+      const l = this.loader
+      this[l] = !this[l]
+      setTimeout(() => {
+        (this[l] = false)
+      }, 3000)
+
+      this.loader = null
     }
   },
   methods: {
+    openRow () {
+      this.loading1 = true
+
+
+    },
+    closeRow () {
+      this.loading2 = true
+
+    },
     dateChanged (newDate) {
       this.date = newDate
     },
@@ -132,12 +176,10 @@ export default {
     }
   },
   components: {
-    Calendar
   }
 }
 </script>
 
 <style>
-
 
 </style>
