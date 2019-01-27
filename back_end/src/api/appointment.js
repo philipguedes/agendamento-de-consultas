@@ -8,9 +8,10 @@ const MAX_SCHEDULE = process.env.MAX_SCHEDULE || 61200000
 
 const APPOINTMENT_STATUS = {
   created: 1,
-  cancelled: 2,
+  available: 2,
   pending: 3,
-  confirmed: 4
+  confirmed: 4,
+  finished: 5
 }
 
 async function create (date) {
@@ -32,7 +33,7 @@ async function create (date) {
 function allocate (date, user) {
   const created = moment(date).toDate()
   return AppointmentModel.where({ created }).update(
-    { user, free: false, status: APPOINTMENT_STATUS.pending }
+    { user, free: false, status: APPOINTMENT_STATUS.confirmed }
   )
 }
 
