@@ -40,6 +40,7 @@
                 :input-value="props.selected"
                 primary
                 hide-details
+                :disabled="disabled"
               ></v-checkbox>
             </td>
             <td>{{ props.item.hour }}</td>
@@ -53,16 +54,16 @@
         color="green"
         class="white--text"
         :loading="loading1"
-        :disabled="loading1 || loading2"
-        @click="openRow">
+        :disabled="disabled"
+        @click="openRows">
         Liberar
       </v-btn>
       <v-btn
         color="red"
         class="white--text"
         :loading="loading2"
-        :disabled="loading2 || loading1"
-        @click="closeRow">
+        :disabled="disabled || true"
+        @click="closeRows">
         Fechar Horário
         <v-icon dark right>remove_circle</v-icon>
       </v-btn>
@@ -76,7 +77,6 @@ export default {
   name: 'appointment-table',
   data () {
     return {
-      loader: null,
       loading1: false,
       loading2: false,
       pagination: {
@@ -115,49 +115,31 @@ export default {
         '16:30',
         '17:30'
       ],
-      items: [
-        { hour: '04:20', available: '1' },
-        { hour: '05:20', available: '1' },
-        { hour: '06:20', available: '1' },
-        { hour: '07:20', available: '2' },
-        { hour: '08:20', available: '1' },
-        { hour: '09:20', available: '1' },
-        { hour: '01:20', available: '1' },
-        { hour: '03:20', available: '1' },
-        { hour: '02:20', available: '1' },
-        { hour: '00:20', available: '1' }
-      ]
+      items: []
     }
   },
   props: {
     date: String
   },
+  computed: {
+    disabled () {
+      return this.loading1 || this.loading2
+    }
+  },
   watch: {
     date (newDate) {
-      console.log('heloo')
-    },
-    loader () {
-      const l = this.loader
-      this[l] = !this[l]
-      setTimeout(() => {
-        (this[l] = false)
-      }, 3000)
-
-      this.loader = null
+      this.reloadItems(newDate)
     }
   },
   methods: {
-    openRow () {
+    openRows () {
       this.loading1 = true
-
-
     },
-    closeRow () {
+    closeRows () {
       this.loading2 = true
-
     },
-    dateChanged (newDate) {
-      this.date = newDate
+    reloadItems () {
+
     },
     selectTime (time) {
       this.time = time

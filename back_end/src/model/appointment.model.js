@@ -11,9 +11,9 @@ const AppointmentSchema = new Schema({
   //   reason: { type: String }
   // }],
   user: {
-    email: { type: String, required: 'Email is required!' },
-    phone: { type: String, required: 'Phone is required!' },
-    name: { type: String, required: 'Name is required!' }
+    email: { type: String },
+    phone: { type: String },
+    name: { type: String }
   },
   free: { type: Boolean }
 })

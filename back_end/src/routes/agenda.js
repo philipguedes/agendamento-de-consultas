@@ -2,7 +2,7 @@
 
 const express = require('express')
 const Joi = require('joi')
-const validator = require('express-joi-validation')()
+const validator = require('express-joi-validator')
 const { agendaCtrl } = require('../ctrl')
 
 const router = express.Router()
@@ -16,6 +16,6 @@ const PUT_CLIENT_VALIDATION = {
   })
 }
 
-router.put('/', validator.body(PUT_CLIENT_VALIDATION.body), agendaCtrl.putClient)
+router.put('/', validator(PUT_CLIENT_VALIDATION), agendaCtrl.putClient)
 
 module.exports = router
