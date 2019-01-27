@@ -7,3 +7,8 @@
 
 ### Propostas para api
 
+#### Proposta
+![](./static/proposta.png)
+
+#### Proposta Simplificada
+![](./static/proposta-simplificada.png)
