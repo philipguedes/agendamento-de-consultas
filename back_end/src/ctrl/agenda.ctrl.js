@@ -1,9 +1,9 @@
 'use strict'
 const { agendaApi } = require('../api')
 
-function putClient (req, res) {
+function postAgenda (req, res) {
   const { body } = req
-  agendaApi.putClient(body).then((response) => {
+  agendaApi.postAgenda(body).then((response) => {
     console.log(response)
     res.status(200).send('ok')
   }).catch((err) => {
@@ -23,5 +23,5 @@ function getAgenda (req, res) {
 }
 
 module.exports = {
-  putClient, getAgenda
+  postAgenda, getAgenda
 }

@@ -44,7 +44,9 @@ export default {
     }
   },
   props: {
-    user: Object,
+    name: String,
+    phone: String,
+    email: String,
     valid: Boolean
   },
   computed: {

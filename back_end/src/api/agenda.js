@@ -3,9 +3,9 @@
 const _ = require('lodash')
 const appointmentApi = require('./appointment')
 
-async function putClient ({ date, email, phone, name }) {
+async function postAgenda ({ schedule, email, phone, name }) {
   const user = { email, phone, name }
-  const result = await appointmentApi.allocate(date, user)
+  const result = await appointmentApi.allocate(schedule, user)
   return result
 }
 
@@ -19,5 +19,5 @@ async function getAgenda (date) {
 }
 
 module.exports = {
-  putClient, getAgenda
+  postAgenda, getAgenda
 }

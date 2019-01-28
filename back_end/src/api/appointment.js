@@ -52,8 +52,8 @@ async function create (date) {
 }
 
 function allocate (date, user) {
-  const created = moment(date).toDate()
-  return AppointmentModel.where({ created }).update(
+  const schedule = moment(date).toDate()
+  return AppointmentModel.where({ schedule }).update(
     { user, free: false, status: APPOINTMENT_STATUS.confirmed }
   )
 }

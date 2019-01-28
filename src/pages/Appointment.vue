@@ -8,7 +8,32 @@
       <v-stepper-content step="1">
         <v-layout column>
           <v-flex xs6>
-            <user-info :valid="valid-user" :user="user"></user-info>
+              <v-form
+                ref="form"
+                v-model="form"
+                class="pa-3 pt-4"
+              >
+                <v-text-field
+                  v-model="name"
+                  :rules="[rules.name, rules.length(3)]"
+                  regular
+                  label="Name"
+                ></v-text-field>
+                <v-text-field
+                  v-model="phone"
+                  regular
+                  label="Celular"
+                  placeholder="(Opcional)"
+                  mask="(##) #####-####"
+                ></v-text-field>
+                <v-text-field
+                  v-model="email"
+                  :rules="[rules.email]"
+                  regular
+                  label="Email"
+                  type="email"
+                ></v-text-field>
+              </v-form>
           </v-flex>
           <v-flex xs2 align-self-end>
           <v-btn
@@ -90,11 +115,19 @@ export default {
       current: 1,
       date: moment().toISOString().substr(0, 10),
       hour: null,
-      user: {},
       schedule: null,
       items: [],
       loading: false,
-      validUser: false
+      validUser: false,
+      name: '',
+      phone: '',
+      email: '',
+      form: false,
+      rules: {
+        name: v => (v || '').match(/[A-Za-z]+/) || 'Nome inválido',
+        email: v => (v || '').match(/\S+@\S+\.\S+/) || 'Email inválido',
+        length: len => v => (v || '').length >= len || `O campo deve ter no mínimo ${len} caracteres`
+      }
     }
   },
   computed: {
@@ -117,15 +150,6 @@ export default {
           break
       }
       return completed
-    },
-    email () {
-      return this.user['email'] || ''
-    },
-    phone () {
-      return this.user['phone'] || ''
-    },
-    name () {
-      return this.user['name'] || ''
     },
     lastStep () {
       return this.schedule && this.current === 3

@@ -9,12 +9,12 @@ const Joi = BaseJoi.extend(JoiExtension)
 
 const router = express.Router()
 
-const PUT_CLIENT_VALIDATION = {
+const POST_VALIDATION = {
   body: Joi.object({
-    date: Joi.date().iso().required(),
+    schedule: Joi.date().iso().required(),
     name: Joi.string().required(),
     email: Joi.string().required(),
-    phone: Joi.string().required()
+    phone: Joi.string()
   })
 }
 
@@ -24,7 +24,7 @@ const GET_VALIDATION = {
   })
 }
 
-router.put('/', validator(PUT_CLIENT_VALIDATION), agendaCtrl.putClient)
+router.post('/', validator(POST_VALIDATION), agendaCtrl.postAgenda) // validation
 
 router.get('/', validator(GET_VALIDATION), agendaCtrl.getAgenda)
 
