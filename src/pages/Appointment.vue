@@ -8,11 +8,11 @@
       <v-stepper-content step="1">
         <v-layout column>
           <v-flex xs6>
-            <user-info :user="user"></user-info>
+            <user-info :valid="valid-user" :user="user"></user-info>
           </v-flex>
           <v-flex xs2 align-self-end>
           <v-btn
-          @click="current += 1"
+          @click="nextStep"
           >Próximo Passo</v-btn>
           </v-flex>
         </v-layout>
@@ -27,7 +27,7 @@
           </v-flex>
 
           <v-flex xs2 align-self-end>
-            <v-btn @click="current += 1">Próximo Passo</v-btn>
+            <v-btn @click="nextStep">Próximo Passo</v-btn>
           </v-flex>
 
         </v-layout>
@@ -46,9 +46,9 @@
                   xs2>
                   <v-item>
                     <v-chip
-                      slot-scope="{ active }"
+                      slot-scope="{ active, toggle }"
                       :selected="active"
-                      v-on:click="select(it)">
+                      v-on:click="toggle(); select(it)">
                       {{ it }}
                     </v-chip>
                   </v-item>
@@ -60,6 +60,11 @@
             <v-btn @click="current -= 1">Voltar</v-btn>
           </v-flex>
         </v-layout>
+      </v-stepper-content>
+
+      <v-stepper-step :complete="current > 4" step="4">Confirmação</v-stepper-step>
+      <v-stepper-content step="4">
+        <div> Consulta marcada com sucesso! </div>
       </v-stepper-content>
     </v-stepper>
   </div>
@@ -77,16 +82,46 @@ export default {
   name: 'appointment',
   data () {
     return {
-      current: 3,
+      current: 1,
       date: moment().toISOString().substr(0, 10),
+      hour: null,
       user: {},
+      schedule: null,
       items: [],
-      loading: false
+      loading: false,
+      active: false,
+      validUser: false
     }
   },
   computed: {
     parsedDate () {
       return moment(this.date).tz('America/Sao_Paulo').format('YYYY-MM-DD')
+    },
+    completedStep () {
+      let completed = false
+      switch (this.current) {
+        case 1:
+          completed = this.validUser()
+          break
+        case 2:
+          completed = this.date
+          break
+        case 3:
+          completed = true
+          break
+        default:
+          break
+      }
+      return completed
+    },
+    email () {
+      return this.user['email'] || ''
+    },
+    phone () {
+      return this.user['phone'] || ''
+    },
+    name () {
+      return this.user['name'] || ''
     }
   },
   watch: {
@@ -105,12 +140,23 @@ export default {
       })
       this.items = items
     },
+    nextStep () {
+      this.current += 1
+    },
     createAppointment () {
       console.log('creating appointment')
+      const obj = {
+        schedule: this.schedule,
+        email: this.email,
+        name: this.name,
+        phone: this.phone }
+      this.loading = true
+      return obj
       // pega a data, as informações do usuario e manda
     },
     select (hour) {
-      console.log(`select: ${hour}`)
+      const dateString = `${this.parsedDate} ${hour}`
+      this.schedule = moment(dateString, 'YYYY-MM-DD HH:mm').tz('America/Sao_Paulo').toISOString()
     }
 
   },
