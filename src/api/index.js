@@ -13,6 +13,11 @@ async function getAgenda (date) {
   }
 }
 
+function postAgenda (body) {
+  const uri = `${apiUrl}/agenda`
+  return axios.post(uri, body)
+}
+
 async function postSelectedAppointment ({ date, time }) {
   let response
   try {
@@ -49,5 +54,6 @@ export default {
   getAgenda,
   postSelectedAppointment,
   openAppointments,
-  getAppointmentsByDay
+  getAppointmentsByDay,
+  postAgenda
 }

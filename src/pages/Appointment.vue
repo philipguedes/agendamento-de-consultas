@@ -56,9 +56,14 @@
               </v-layout>
             </v-container>
           </v-item-group>
-          <v-flex xs2 align-self-start>
-            <v-btn @click="current -= 1">Voltar</v-btn>
-          </v-flex>
+          <v-layout row justify-space-between>
+            <v-flex xs2 align-self-start>
+              <v-btn @click="current -= 1">Voltar</v-btn>
+            </v-flex>
+            <v-flex xs2 align-self-end>
+              <v-btn v-if="lastStep" v-on:click="createAppointment">Finalizar</v-btn>
+            </v-flex>
+          </v-layout>
         </v-layout>
       </v-stepper-content>
 
@@ -89,7 +94,6 @@ export default {
       schedule: null,
       items: [],
       loading: false,
-      active: false,
       validUser: false
     }
   },
@@ -122,6 +126,9 @@ export default {
     },
     name () {
       return this.user['name'] || ''
+    },
+    lastStep () {
+      return this.schedule && this.current === 3
     }
   },
   watch: {
@@ -140,6 +147,10 @@ export default {
       })
       this.items = items
     },
+    select (hour) {
+      const dateString = `${this.parsedDate} ${hour}`
+      this.schedule = moment(dateString, 'YYYY-MM-DD HH:mm').tz('America/Sao_Paulo').toISOString()
+    },
     nextStep () {
       this.current += 1
     },
@@ -151,12 +162,14 @@ export default {
         name: this.name,
         phone: this.phone }
       this.loading = true
-      return obj
+      Api.postAgenda(obj).then((response) => {
+        this.nextStep()
+      }).catch((err) => {
+        console.log(err) // substituir por toast
+      }).finally(() => {
+        this.loading = false
+      })
       // pega a data, as informações do usuario e manda
-    },
-    select (hour) {
-      const dateString = `${this.parsedDate} ${hour}`
-      this.schedule = moment(dateString, 'YYYY-MM-DD HH:mm').tz('America/Sao_Paulo').toISOString()
     }
 
   },
