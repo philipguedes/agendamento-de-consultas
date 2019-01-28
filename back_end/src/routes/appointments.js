@@ -20,6 +20,8 @@ const GET_VALIDATION = {
 
 router.post('/', validator(POST_VALIDATION), appointmentCtrl.newAppointment)
 
+router.post('/close', validator(POST_VALIDATION), appointmentCtrl.closeAppointment)
+
 router.get('/', validator(GET_VALIDATION), appointmentCtrl.getAppointment)
 
 module.exports = router

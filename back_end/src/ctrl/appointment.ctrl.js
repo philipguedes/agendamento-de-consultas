@@ -22,6 +22,17 @@ function getAppointment (req, res) {
   })
 }
 
+function closeAppointment (req, res) {
+  const { body } = req
+  appointmentApi.closeMany(body).then((response) => {
+    console.log(response)
+    res.status(200).send('ok')
+  }).catch((err) => {
+    console.log(err)
+    res.status(500).send('failed')
+  })
+}
+
 module.exports = {
-  newAppointment, getAppointment
+  newAppointment, getAppointment, closeAppointment
 }

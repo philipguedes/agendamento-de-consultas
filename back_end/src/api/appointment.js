@@ -24,6 +24,12 @@ async function createMany (dates) {
   return result
 }
 
+async function closeMany (dates) {
+  const result = await Promise.map(dates, asyncHandler(close))
+
+  return result
+}
+
 const asyncHandler = (promise) => async (...args) => {
   let result
   try {
@@ -51,6 +57,10 @@ async function create (date) {
   return appoint
 }
 
+function close (date) {
+  return AppointmentModel.updateOne({ date }, { free: false })
+}
+
 function allocate (date, user) {
   const schedule = moment(date).toDate()
   return AppointmentModel.where({ schedule }).update(
@@ -67,5 +77,5 @@ async function getAppointment (date) {
 }
 
 module.exports = {
-  create, allocate, createMany, getAppointment
+  create, allocate, createMany, getAppointment, closeMany
 }
