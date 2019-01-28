@@ -73,6 +73,8 @@
 
 <script>
 import Api from '@/api/index'
+import _ from 'lodash'
+import moment from 'moment-timezone'
 
 export default {
   name: 'appointment-table',
@@ -128,6 +130,9 @@ export default {
   computed: {
     disabled () {
       return this.loading1 || this.loading2
+    },
+    zero () {
+      return moment(this.date).tz('America/Sao_Paulo').startOf('day')
     }
   },
   watch: {
@@ -136,19 +141,43 @@ export default {
     }
   },
   methods: {
-    createRows () {
-
+    createItems () {
+      const items = _.map(this.currentItems, (value, key) => {
+        return { hour: key, available: value.free }
+      })
+      _.forEach(this.template, (h) => {
+        if (_.isEmpty(this.currentItems[h])) {
+          items.push({ hour: h, available: true })
+        }
+      })
+      this.items = items
+    },
+    shifted (num) {
+      const zero = this.zero
+      zero.add(num)
+      return zero.format('HH:mm')
+    },
+    reloadItems () {
+      Api.getAppointmentsByDay('2019-01-26').then(this.parseNewItems)
+    },
+    parseNewItems (newItems) {
+      console.log(newItems)
+      const currentItems = {}
+      _.forEach(newItems, (item) => {
+        const key = this.parseDate(item['schedule']).format('HH:mm')
+        currentItems[key] = item
+      })
+      this.currentItems = currentItems
+      this.createItems()
+    },
+    parseDate (date) {
+      return moment(date).tz('America/Sao_Paulo')
     },
     openRows () {
       this.loading1 = true
     },
     closeRows () {
       this.loading2 = true
-    },
-    reloadItems () {
-      Api.getAppointmentsByDay('2019-01-26').then((newItems) => {
-        this.items = newItems
-      })
     },
     selectTime (time) {
       this.time = time
