@@ -2,15 +2,15 @@ import axios from 'axios'
 import qs from 'qs'
 import { apiUrl } from './config'
 
-async function getAgenda () {
-  let response
+async function getAgenda (date) {
+  const queryString = qs.stringify({ date })
   try {
-    response = await axios.get(`${apiUrl}/agenda`)
-  } catch (err) {
-    response = {}
-    console.log(err)
+    const { data } = await axios.get(`${apiUrl}/agenda?${queryString}`)
+    return data
+  } catch (error) {
+    console.log(error)
+    return []
   }
-  return response
 }
 
 async function postSelectedAppointment ({ date, time }) {

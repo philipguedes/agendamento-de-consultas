@@ -54,9 +54,10 @@
         color="green"
         class="white--text"
         :loading="loading1"
-        :disabled="disabled"
+        :disabled="openDisabled"
         @click="openRows">
-        Liberar
+        Abrir
+        <v-icon dark right>check_circle</v-icon>
       </v-btn>
       <v-btn
         color="red"
@@ -64,7 +65,7 @@
         :loading="loading2"
         :disabled="disabled || true"
         @click="closeRows">
-        Fechar Horário
+        Fechar
         <v-icon dark right>remove_circle</v-icon>
       </v-btn>
     </v-card-actions>
@@ -95,7 +96,7 @@ export default {
           value: 'hour'
         },
         {
-          text: 'Disponível', // aberto ou fechado
+          text: 'Aberto', // aberto ou fechado
           value: 'available'
         }
       ],
@@ -118,8 +119,7 @@ export default {
         '13:30',
         '14:30',
         '15:30',
-        '16:30',
-        '17:30'
+        '16:30'
       ],
       items: []
     }
@@ -133,6 +133,9 @@ export default {
     },
     zero () {
       return moment(this.date).tz('America/Sao_Paulo').startOf('day')
+    },
+    openDisabled () {
+
     }
   },
   watch: {
@@ -147,7 +150,7 @@ export default {
       })
       _.forEach(this.template, (h) => {
         if (_.isEmpty(this.currentItems[h])) {
-          items.push({ hour: h, available: true })
+          items.push({ hour: h, available: false })
         }
       })
       this.items = items

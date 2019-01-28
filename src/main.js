@@ -9,14 +9,11 @@ import router from './router'
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vuetify/dist/vuetify.min.css'
 
-import colors from 'vuetify/es5/util/colors'
+// import colors from 'vuetify/es5/util/colors'
 
 // Vue.use(BootstrapVue)
 Vue.use(Vuetify, {
-  iconfont: 'fa4',
-  primary: colors.red.darken1,
-  secondary: colors.red.lighten4, // #FFCDD2
-  accent: colors.indigo.base // #3F51B5
+  iconfont: 'fa4'
 })
 Vue.config.productionTip = false
 

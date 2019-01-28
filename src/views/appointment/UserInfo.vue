@@ -1,32 +1,30 @@
 <template>
-  <div class="info">
-    <v-form
-      ref="form"
-      v-model="form"
-      class="pa-3 pt-4"
-    >
-      <v-text-field
-        v-model="name"
-        :rules="[rules.name, rules.length(3)]"
-        regular
-        label="Name"
-      ></v-text-field>
-      <v-text-field
-        v-model="phone"
-        regular
-        label="Celular"
-        mask="(##) # ####-####"
-      ></v-text-field>
-      <v-text-field
-        v-model="email"
-        :rules="[rules.email]"
-        regular
-        label="Email"
-        type="email"
-        error
-      ></v-text-field>
-    </v-form>
-  </div>
+  <v-form
+    ref="form"
+    v-model="form"
+    class="pa-3 pt-4"
+  >
+    <v-text-field
+      v-model="user.name"
+      :rules="[rules.name, rules.length(3)]"
+      regular
+      label="Name"
+    ></v-text-field>
+    <v-text-field
+      v-model="user.phone"
+      regular
+      label="Celular"
+      mask="(##) # ####-####"
+    ></v-text-field>
+    <v-text-field
+      v-model="user.email"
+      :rules="[rules.email]"
+      regular
+      label="Email"
+      type="email"
+      error
+    ></v-text-field>
+  </v-form>
 </template>
 
 <script>
@@ -47,7 +45,8 @@ export default {
       }
     }
   },
-  methods: {
+  props: {
+    user: Object
   },
   components: {
   }
