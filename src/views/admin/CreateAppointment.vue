@@ -2,7 +2,7 @@
   <v-container>
     <v-layout justify-center reverse fill-height row>
       <v-flex xs7 align-self-center>
-        <appointment-table :date="date"></appointment-table>
+        <appointment-table v-on:open="openAppointments" v-on:close="closeAppointments" :date="date"></appointment-table>
       </v-flex>
       <v-flex xs1 grow style="height=100%">
         <v-divider vertical></v-divider>
@@ -27,6 +27,12 @@ export default {
     }
   },
   methods: {
+    openAppointments (dates) {
+
+    },
+    closeAppointments (dates) {
+
+    }
   },
   components: {
     Calendar, AppointmentTable

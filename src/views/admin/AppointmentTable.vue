@@ -53,8 +53,6 @@
       <v-btn
         color="green"
         class="white--text"
-        :loading="loading1"
-        :disabled="openDisabled"
         @click="openRows">
         Abrir
         <v-icon dark right>check_circle</v-icon>
@@ -62,8 +60,6 @@
       <v-btn
         color="red"
         class="white--text"
-        :loading="loading2"
-        :disabled="disabled || true"
         @click="closeRows">
         Fechar
         <v-icon dark right>remove_circle</v-icon>
@@ -176,12 +172,6 @@ export default {
     parseDate (date) {
       return moment(date).tz('America/Sao_Paulo')
     },
-    openRows () {
-      this.loading1 = true
-    },
-    closeRows () {
-      this.loading2 = true
-    },
     selectTime (time) {
       this.time = time
     },
@@ -196,6 +186,20 @@ export default {
         this.pagination.sortBy = column
         this.pagination.descending = false
       }
+    },
+    parseSelected (action) {
+      const dayStr = this.parseDate(this.date).format('YYYY-MM-DD')
+      const selected = _.map(this.selected, (obj) => {
+        const dateStr = `${dayStr} ${obj.hour}`
+        return moment(dateStr, 'YYYY-MM-DD HH:mm').tz('America/Sao_Paulo').toISOString()
+      })
+      this.$emit(action, selected)
+    },
+    openRows () {
+      this.parseSelected('open')
+    },
+    closeRows () {
+      this.parseSelected('close')
     }
   },
   components: {
