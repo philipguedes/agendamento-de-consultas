@@ -18,7 +18,7 @@ const GET_VALIDATION = {
   })
 }
 
-router.post('/', validator(POST_VALIDATION), appointmentCtrl.newAppointment)
+router.post('/open', validator(POST_VALIDATION), appointmentCtrl.newAppointment)
 
 router.post('/close', validator(POST_VALIDATION), appointmentCtrl.closeAppointment)
 

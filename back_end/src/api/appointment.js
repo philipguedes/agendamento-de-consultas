@@ -58,7 +58,7 @@ async function create (date) {
 }
 
 function close (date) {
-  return AppointmentModel.updateOne({ date }, { free: false })
+  return AppointmentModel.deleteOne({ date, free: true })
 }
 
 function allocate (date, user) {
