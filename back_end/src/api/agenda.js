@@ -13,7 +13,9 @@ async function getAgenda (date) {
   const agenda = []
   const result = await appointmentApi.getAppointment(date)
   _.forEach(result, (r) => {
-    agenda.push(r.schedule)
+    if (r.free) {
+      agenda.push(r.schedule)
+    }
   })
   return agenda
 }
