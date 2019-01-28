@@ -1,5 +1,6 @@
 'use strict'
 
+const _ = require('lodash')
 const appointmentApi = require('./appointment')
 
 async function putClient ({ date, email, phone, name }) {
@@ -8,6 +9,15 @@ async function putClient ({ date, email, phone, name }) {
   return result
 }
 
+async function getAgenda (date) {
+  const agenda = []
+  const result = await appointmentApi.getAppointment(date)
+  _.forEach(result, (r) => {
+    agenda.push(r.schedule)
+  })
+  return agenda
+}
+
 module.exports = {
-  putClient
+  putClient, getAgenda
 }

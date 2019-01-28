@@ -15,7 +15,6 @@ function newAppointment (req, res) {
 function getAppointment (req, res) {
   const { date } = req.query
   appointmentApi.getAppointment(date).then((response) => {
-    console.log(response)
     res.status(200).send(response)
   }).catch((err) => {
     console.log(err)

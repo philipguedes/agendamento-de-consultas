@@ -12,6 +12,16 @@ function putClient (req, res) {
   })
 }
 
+function getAgenda (req, res) {
+  const { date } = req.query
+  agendaApi.getAgenda(date).then((response) => {
+    res.status(200).send(response)
+  }).catch((err) => {
+    console.log(err)
+    res.status(500).send('failed')
+  })
+}
+
 module.exports = {
-  putClient
+  putClient, getAgenda
 }
