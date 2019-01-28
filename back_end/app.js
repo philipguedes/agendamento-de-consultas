@@ -3,9 +3,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const helmet = require('helmet')
 const { dbUrl, port } = require('./config')
 const createApiRoutes = require('./src/routes')
 const app = express()
+
+app.use(helmet())
 
 /* Mongo */
 mongoose.connect(dbUrl, { useNewUrlParser: true })

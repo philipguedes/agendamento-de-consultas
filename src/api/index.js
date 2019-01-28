@@ -1,6 +1,5 @@
 import axios from 'axios'
-import querystring from 'querystring'
-import moment from 'moment'
+import qs from 'qs'
 import { apiUrl } from './config'
 
 async function getAgenda () {
@@ -9,7 +8,7 @@ async function getAgenda () {
     response = await axios.get(`${apiUrl}/agenda`)
   } catch (err) {
     response = {}
-    console.error(err)
+    console.log(err)
   }
   return response
 }
@@ -19,33 +18,31 @@ async function postSelectedAppointment ({ date, time }) {
   try {
     response = await axios.post(`${apiUrl}/appointment`)
   } catch (error) {
-    console.error(error)
+    console.log(error)
     response = {}
   }
   return response
 }
 
 async function getAppointmentsByDay (date) {
-  let response
-  const formatted = moment(date).format('YYYY-MM-DD')
+  const queryString = qs.stringify({ date })
   try {
-    response = await axios.get(`${apiUrl}/appointments`, querystring.stringify({ date: formatted }))
+    const { data } = await axios.get(`${apiUrl}/appointments?${queryString}`)
+    return data
   } catch (error) {
-    console.error(error)
-    response = {}
+    console.log(error)
+    return []
   }
-  return response
 }
 
 async function openAppointments (dates) {
-  let response
   try {
-    response = await axios.post(`${apiUrl}/appointments`, dates)
+    const response = await axios.post(`${apiUrl}/appointments`, dates)
+    return response
   } catch (error) {
-    console.error(error)
-    response = {}
+    console.log(error)
+    return []
   }
-  return response
 }
 
 export default {

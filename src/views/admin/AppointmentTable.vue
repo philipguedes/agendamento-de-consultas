@@ -72,9 +72,13 @@
 </template>
 
 <script>
+import Api from '@/api/index'
 
 export default {
   name: 'appointment-table',
+  created () {
+    this.reloadItems()
+  },
   data () {
     return {
       loading1: false,
@@ -132,6 +136,9 @@ export default {
     }
   },
   methods: {
+    createRows () {
+
+    },
     openRows () {
       this.loading1 = true
     },
@@ -139,7 +146,9 @@ export default {
       this.loading2 = true
     },
     reloadItems () {
-
+      Api.getAppointmentsByDay('2019-01-26').then((newItems) => {
+        this.items = newItems
+      })
     },
     selectTime (time) {
       this.time = time
