@@ -1,7 +1,25 @@
 'use strict'
 
-const { AgendaModel } = require('../model')
+const _ = require('lodash')
+const appointmentApi = require('./appointment')
 
-async function openAgenda () {
+async function postAgenda ({ schedule, email, phone, name }) {
+  const user = { email, phone, name }
+  const result = await appointmentApi.allocate(schedule, user)
+  return result
+}
 
+async function getAgenda (date) {
+  const agenda = []
+  const result = await appointmentApi.getAppointment(date)
+  _.forEach(result, (r) => {
+    if (r.free) {
+      agenda.push(r.schedule)
+    }
+  })
+  return agenda
+}
+
+module.exports = {
+  postAgenda, getAgenda
 }

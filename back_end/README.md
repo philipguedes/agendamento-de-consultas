@@ -1,4 +1,14 @@
-assumi que:
+## Agendamento (backend)
 
-  - existe um horário possível para agendamento de consultas (8h às 17h)
-  - a unidade de tempo para consultas é 30 min (não é possível marcar uma consulta às 14h20min por exemplo)
+### Suposições:
+
+  - Existe um horário possível para agendamento de consultas (8h às 17h)
+
+
+### Propostas para api
+
+#### Proposta
+![](./static/proposta.png)
+
+#### Proposta Simplificada
+![](./static/proposta-simplificada.png)

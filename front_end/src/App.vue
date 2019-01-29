@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
+  <v-app>
     <header>
       <span>Agendamento de Consultas</span>
     </header>
     <main>
       <router-view></router-view>
     </main>
-  </div>
+  </v-app>
 </template>
 
 <script>

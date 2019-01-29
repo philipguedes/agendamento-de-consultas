@@ -1,18 +1,31 @@
 'use strict'
 
 const express = require('express')
-const Joi = require('joi')
-const validator = require('express-joi-validation')()
-const { agendaController } = require('../controllers')
+const BaseJoi = require('joi')
+const JoiExtension = require('joi-date-extensions')
+const validator = require('express-joi-validator')
+const { agendaCtrl } = require('../ctrl')
+const Joi = BaseJoi.extend(JoiExtension)
 
 const router = express.Router()
 
-const OPEN_VALIDATION = {
+const POST_VALIDATION = {
   body: Joi.object({
-    datetimes: Joi.array().items(Joi.date().iso().required()).required()
+    schedule: Joi.date().iso().required(),
+    name: Joi.string().required(),
+    email: Joi.string().required(),
+    phone: Joi.string()
   })
 }
 
-router.post('/:day/open', validator.body(OPEN_VALIDATION.body), agendaController.post)
+const GET_VALIDATION = {
+  query: Joi.object({
+    date: Joi.date().format('YYYY-MM-DD')
+  })
+}
+
+router.post('/', validator(POST_VALIDATION), agendaCtrl.postAgenda) // validation
+
+router.get('/', validator(GET_VALIDATION), agendaCtrl.getAgenda)
 
 module.exports = router
