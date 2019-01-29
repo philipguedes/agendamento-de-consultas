@@ -42,7 +42,17 @@ async function getAppointmentsByDay (date) {
 
 async function openAppointments (dates) {
   try {
-    const response = await axios.post(`${apiUrl}/appointments`, dates)
+    const response = await axios.post(`${apiUrl}/appointments/open`, dates)
+    return response
+  } catch (error) {
+    console.log(error)
+    return []
+  }
+}
+
+async function closeAppointments (dates) {
+  try {
+    const response = await axios.post(`${apiUrl}/appointments/close`, dates)
     return response
   } catch (error) {
     console.log(error)
@@ -54,6 +64,7 @@ export default {
   getAgenda,
   postSelectedAppointment,
   openAppointments,
+  closeAppointments,
   getAppointmentsByDay,
   postAgenda
 }

@@ -58,7 +58,8 @@ async function create (date) {
 }
 
 function close (date) {
-  return AppointmentModel.deleteOne({ date, free: true })
+  const schedule = moment(date).toDate()
+  return AppointmentModel.deleteOne({ schedule, free: true })
 }
 
 function allocate (date, user) {

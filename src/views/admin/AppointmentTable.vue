@@ -40,7 +40,6 @@
                 :input-value="props.selected"
                 primary
                 hide-details
-                :disabled="disabled"
               ></v-checkbox>
             </td>
             <td>{{ props.item.hour }}</td>
@@ -53,14 +52,16 @@
       <v-btn
         color="green"
         class="white--text"
-        @click="openRows">
+        :disabled="disabled"
+        @click="openAppointments">
         Abrir
         <v-icon dark right>check_circle</v-icon>
       </v-btn>
       <v-btn
         color="red"
         class="white--text"
-        @click="closeRows">
+        :disabled="disabled"
+        @click="closeAppointments">
         Fechar
         <v-icon dark right>remove_circle</v-icon>
       </v-btn>
@@ -125,13 +126,16 @@ export default {
   },
   computed: {
     disabled () {
-      return this.loading1 || this.loading2
+      return this.selected.length === 0
     },
     zero () {
       return moment(this.date).tz('America/Sao_Paulo').startOf('day')
     },
     openDisabled () {
 
+    },
+    formatted () {
+      return moment(this.date).tz('America/Sao_Paulo').format('YYYY-MM-DD')
     }
   },
   watch: {
@@ -157,7 +161,7 @@ export default {
       return zero.format('HH:mm')
     },
     reloadItems () {
-      Api.getAppointmentsByDay('2019-01-26').then(this.parseNewItems)
+      Api.getAppointmentsByDay(this.formatted).then(this.parseNewItems)
     },
     parseNewItems (newItems) {
       console.log(newItems)
@@ -187,20 +191,40 @@ export default {
         this.pagination.descending = false
       }
     },
-    parseSelected (action) {
-      const dayStr = this.parseDate(this.date).format('YYYY-MM-DD')
+    parseSelected () {
       const selected = _.map(this.selected, (obj) => {
-        const dateStr = `${dayStr} ${obj.hour}`
+        const dateStr = `${this.formatted} ${obj.hour}`
         return moment(dateStr, 'YYYY-MM-DD HH:mm').tz('America/Sao_Paulo').toISOString()
       })
-      this.$emit(action, selected)
+      // this.$emit(action, selected)
+      return selected
     },
-    openRows () {
-      this.parseSelected('open')
+    openAppointments () {
+      const dates = this.parseSelected()
+      this.$emit('loading-on')
+      Api.openAppointments(dates).then((response) => {
+        console.log('open respondeu')
+      }).finally(() => {
+        this.reloadItems()
+        this.$emit('loading-off')
+      })
     },
-    closeRows () {
-      this.parseSelected('close')
+    closeAppointments () {
+      const dates = this.parseSelected()
+      this.$emit('loading-on')
+      Api.closeAppointments(dates).then((response) => {
+        console.log('close respondeu')
+      }).finally(() => {
+        this.reloadItems()
+        this.$emit('loading-off')
+      })
     }
+    // openRows () {
+    //   this.parseSelected('open')
+    // },
+    // closeRows () {
+    //   this.parseSelected('close')
+    // }
   },
   components: {
   }
