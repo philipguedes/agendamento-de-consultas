@@ -1,6 +1,6 @@
 FROM node:10.15.0-alpine
 
-WORKDIR /app
+WORKDIR /app/cuidas-backend
 
 COPY package.json .
 
