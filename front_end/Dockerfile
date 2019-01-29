@@ -2,7 +2,7 @@ FROM node:10.15.0-alpine
 
 RUN npm install -g http-server
 
-WORKDIR /app
+WORKDIR /app/cuidas-frontend
 
 COPY . .
 
