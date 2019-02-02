@@ -1,6 +1,6 @@
 'use strict'
 
-const moment = require('moment')
+const moment = require('moment-timezone')
 const _ = require('lodash')
 const Promise = require('bluebird')
 const { AppointmentModel } = require('../model')
@@ -43,9 +43,9 @@ const asyncHandler = (promise) => async (...args) => {
 
 async function create (date) {
   let appoint = {}
-  const ref = moment(date).startOf('day')
-  const diff = moment(date).diff(ref)
-  const schedule = moment(date).toDate()
+  const ref = moment(date).tz('America/Sao_Paulo').startOf('day')
+  const diff = moment(date).tz('America/Sao_Paulo').diff(ref)
+  const schedule = moment(date).tz('America/Sao_Paulo').toDate()
   if (diff >= MIN_SCHEDULE && diff <= MAX_SCHEDULE) {
     appoint = await AppointmentModel.create({
       status: APPOINTMENT_STATUS.created,
