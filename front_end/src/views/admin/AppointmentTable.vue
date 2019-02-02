@@ -118,7 +118,8 @@ export default {
         '15:30',
         '16:30'
       ],
-      items: []
+      items: [],
+      currentItems: []
     }
   },
   props: {
@@ -146,11 +147,17 @@ export default {
   methods: {
     createItems () {
       const items = _.map(this.currentItems, (value, key) => {
-        return { hour: key, available: value.free }
+        let available
+        if (value.free) {
+          available = 'aberto'
+        } else {
+          available = _.isEmpty(value.user) ? 'fechado' : 'agendado'
+        }
+        return { hour: key, available }
       })
       _.forEach(this.template, (h) => {
         if (_.isEmpty(this.currentItems[h])) {
-          items.push({ hour: h, available: false })
+          items.push({ hour: h, available: 'fechado' })
         }
       })
       this.items = items

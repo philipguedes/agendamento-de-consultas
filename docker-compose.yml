@@ -2,15 +2,15 @@ version: '3.2'
 services:
   api:
     build: ./back_end
-    volumes:
-      - ./back_end:/app/cuidas-backend
+    # volumes:
+    #   - ./back_end:/app/cuidas-backend
     ports:
       - "4200:4200"
     command: npm start
   web:
     build: ./front_end
-    volumes:
-      - ./front_end:/app/cuidas-frontend
+    # volumes:
+    #   - ./front_end:/app/cuidas-frontend
     ports:
       - "8080:8080"
     links:
